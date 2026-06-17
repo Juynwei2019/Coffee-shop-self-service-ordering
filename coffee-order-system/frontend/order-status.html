@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>訂單狀態</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .order-header { text-align: center; padding: 40px 16px 20px; }
+        .order-header h1 { font-size: 32px; margin-bottom: 8px; color: var(--text-main); }
+        .order-header p { color: var(--text-sub); }
+    </style>
+</head>
+<body>
+    <div class="order-header">
+        <h1 id="display-order-id">#000</h1>
+        <p>訂單狀態追蹤</p>
+    </div>
+
+    <div class="status-container">
+        <div class="step active" id="step-pending">
+            <div class="step-dot"></div>
+            <div class="step-text">已收到訂單</div>
+        </div>
+        <div class="step" id="step-making">
+            <div class="step-dot"></div>
+            <div class="step-text">製作中</div>
+        </div>
+        <div class="step" id="step-ready">
+            <div class="step-dot"></div>
+            <div class="step-text">請取餐</div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('id');
+        document.getElementById('display-order-id').textContent = `#${orderId}`;
+
+        async function checkStatus() {
+            if (!orderId) return;
+            try {
+                const res = await fetch(`${API_BASE_URL}/orders/${orderId}`);
+                if (res.ok) {
+                    const order = await res.json();
+                    updateSteps(order.status);
+                    if (order.status === 'ready') clearInterval(pollInterval);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+
+        function updateSteps(status) {
+            const making = document.getElementById('step-making');
+            const ready = document.getElementById('step-ready');
+            
+            if (status === 'making' || status === 'ready') making.classList.add('active');
+            if (status === 'ready') ready.classList.add('active');
+        }
+
+        const pollInterval = setInterval(checkStatus, 5000);
+        checkStatus();
+    </script>
+</body>
+</html>pip install -r requirements.txt

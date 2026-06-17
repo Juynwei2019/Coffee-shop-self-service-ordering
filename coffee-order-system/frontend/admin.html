@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>店家管理看板</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .admin-container { padding: 16px; }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="nav-tabs" id="admin-tabs">
+            <button class="nav-item active" data-status="pending">未處理</button>
+            <button class="nav-item" data-status="making">製作中</button>
+            <button class="nav-item" data-status="ready">已完成</button>
+        </nav>
+    </header>
+
+    <main class="admin-container" id="admin-list"></main>
+
+    <script src="js/config.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>
